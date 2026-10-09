@@ -1,0 +1,14 @@
+{
+  "name": "ledgerly",
+  "version": "1.0.0",
+  "description": "Self-hosted finance suite: double-entry accounting, invoicing, bills, banking, payroll, budgets and reports for multiple organisations.",
+  "main": "src/server.js",
+  "private": true,
+  "license": "MIT",
+  "engines": { "node": ">=22.13" },
+  "scripts": {
+    "start": "node --disable-warning=ExperimentalWarning src/server.js",
+    "test": "node --disable-warning=ExperimentalWarning test/smoke.js",
+    "demo": "node --disable-warning=ExperimentalWarning scripts/seed-demo.js"
+  }
+}

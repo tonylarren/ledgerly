@@ -1,0 +1,12 @@
+services:
+  ledgerly:
+    build: .
+    container_name: ledgerly
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    environment:
+      - ALLOW_SIGNUP=false      # first user always becomes admin; afterwards admins/owners create accounts
+      - SECURE_COOKIES=false    # set to true when served over HTTPS (behind Caddy/Traefik/nginx)
+    volumes:
+      - ./data:/data

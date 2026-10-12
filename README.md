@@ -87,6 +87,9 @@ Always confirm figures with your accountant, CNaPS or the DGI before filing.
 
 ## Running in production
 
+**Step-by-step guide for an Ubuntu server (Contabo, Hetzner, …): [DEPLOY.md](DEPLOY.md).** It covers Caddy with automatic HTTPS, nightly backups and restores.
+
+
 - Put it behind a reverse proxy with HTTPS (Caddy is easiest: `ledger.example.com { reverse_proxy localhost:8080 }`), then set `SECURE_COOKIES=true` and `TRUST_PROXY=true`.
 - **Backups:** Administration → *Download backup* gives a consistent snapshot. To automate, copy `data/ledgerly.db` while stopped, or run `sqlite3 data/ledgerly.db ".backup backup.db"` on a cron.
 - **Restore:** stop the app, replace `data/ledgerly.db`, then start it again.

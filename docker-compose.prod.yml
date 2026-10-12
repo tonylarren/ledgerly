@@ -1,0 +1,37 @@
+# Production stack: Ledgerly behind Caddy, which obtains and renews HTTPS certificates automatically.
+# Usage (on the server, in the repo folder):
+#   cp .env.example .env    # then set DOMAIN (and SMTP_* if you want instance-wide email)
+#   mkdir -p data backups && sudo chown 1000:1000 data
+#   docker compose -f docker-compose.prod.yml up -d --build
+services:
+  ledgerly:
+    build: .
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      - SECURE_COOKIES=true     # cookies only over HTTPS
+      - TRUST_PROXY=true        # Caddy forwards the real client IP (login throttling)
+    volumes:
+      - ./data:/data            # ledgerly.db lives here — must be owned by uid 1000
+    expose:
+      - "8080"                  # reachable by Caddy only, never published to the internet
+
+  caddy:
+    image: caddy:2
+    restart: unless-stopped
+    depends_on:
+      - ledgerly
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    environment:
+      - DOMAIN=${DOMAIN:?Set DOMAIN in .env}
+    volumes:
+      - ./deploy/Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data        # certificates — keep this volume
+      - caddy_config:/config
+
+volumes:
+  caddy_data:
+  caddy_config:

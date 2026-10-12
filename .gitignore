@@ -2,3 +2,5 @@ data/
 node_modules/
 demo-data/
 .claude/
+.env
+backups/

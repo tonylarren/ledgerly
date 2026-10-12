@@ -5,10 +5,14 @@
   "main": "src/server.js",
   "private": true,
   "license": "MIT",
-  "engines": { "node": ">=22.13" },
+  "engines": {
+    "node": ">=22.13"
+  },
   "scripts": {
     "start": "node --disable-warning=ExperimentalWarning src/server.js",
-    "test": "node --disable-warning=ExperimentalWarning test/smoke.js",
+    "test": "node --disable-warning=ExperimentalWarning --test --test-timeout=120000 --test-reporter=spec \"test/*.test.js\"",
+    "test:api": "node --disable-warning=ExperimentalWarning --test --test-timeout=120000 --test-reporter=spec test/api.e2e.test.js",
+    "test:ui": "node --disable-warning=ExperimentalWarning --test --test-timeout=120000 --test-reporter=spec test/ui.e2e.test.js",
     "demo": "node --disable-warning=ExperimentalWarning scripts/seed-demo.js"
   }
 }
